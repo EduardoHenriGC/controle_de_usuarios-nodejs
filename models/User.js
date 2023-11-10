@@ -21,7 +21,22 @@ const User = db.define('users', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    phoneNumber: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    gender: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    dateOfBirth: {
+        type: Sequelize.DATE,
+    },
     isAdmin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+    },
+    isActive: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
     },

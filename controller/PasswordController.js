@@ -1,21 +1,8 @@
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const nodemailerTransporter = require('../nodeMailer/config');
 require('dotenv').config();
-
-
-// Configuração do Nodemailer
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.GOOGLE_CLIENT_USER,
-        pass: process.env.GOOGLE_CLIENT_PASSWORD,
-    },
-});
-
 
 exports.recuperarSenha = async (req, res) => {
     const { email } = req.body;
@@ -36,7 +23,7 @@ exports.recuperarSenha = async (req, res) => {
     user.resetPasswordTokenExpiry = resetTokenExpiry;
     await user.save();
 
-    // Enviar um email com o link de redefinição de senha
+    // Envia um email com o link de redefinição de senha
     const resetPasswordLink = `http://localhost:3000/resetpassword?token=${resetToken}`;
 
     // Configuração do email
@@ -47,8 +34,8 @@ exports.recuperarSenha = async (req, res) => {
         text: `Clique no link a seguir para redefinir sua senha: ${resetPasswordLink}`,
     };
 
-    // Envie o email
-    transporter.sendMail(mailOptions, (error, info) => {
+
+    nodemailerTransporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(error);
             return res.status(500).json({

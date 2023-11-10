@@ -12,6 +12,7 @@ app.use(cors());
 
 
 app.post('/cadastrar', UserController.cadastrar);
+app.get('/ativar-conta', UserController.AtivarConta);
 app.post('/login', UserController.login);
 app.post('/recuperar-senha', PasswordController.recuperarSenha);
 app.post('/redefinir-senha', PasswordController.redefinirSenha);
